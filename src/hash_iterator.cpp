@@ -15,13 +15,9 @@ hash_iterator::hash_iterator()
 
 hash_iterator::hash_iterator(_NUM_FIELDS const& _num_fields, _MAX_VAL const& _max_val, _LAST_VAL const& _last_val)
 {
-	std::cout << "Begining the parent constructor we want..." << std::endl;
-
 	if(!_num_fields || !_max_val || !_last_val)return;
 
 	NUM_FIELDS = (*_num_fields)();
-
-	std::cout << "NUM_FIELDS should be correct: " << NUM_FIELDS << std::endl;
 
 	if(!NUM_FIELDS)return;
 
@@ -48,20 +44,12 @@ hash_iterator::hash_iterator(_NUM_FIELDS const& _num_fields, _MAX_VAL const& _ma
 	}
 	LAST_VAL = _last_val;
 
-	std::cout << "Check the bit arrays:" << std::endl;
-	for(s = 0; s < NUM_FIELDS; ++s)
-	{
-		std::cout << "\twidth: " << bit_wdths[s] << "\tshift: " << "\t" << bit_shfts[s] << std::endl;
-	}
-
 	pos = 0;	
 	for(s = 0; s < NUM_FIELDS; ++s)
 	{
 		pos += bit_wdths[s];
 	}
 	SIZE = ++pos;
-
-	std::cout << "SIZE should be correct: " << SIZE << std::endl;
 
 	BEGIN_HASH = 0;
 	hash = 0;
@@ -73,8 +61,6 @@ hash_iterator::hash_iterator(_NUM_FIELDS const& _num_fields, _MAX_VAL const& _ma
 	END_HASH = 1 << SIZE;
 
 	hash = 0;
-
-	std::cout << "Exiting the constructor..." << std::endl;
 }
 
 hash_iterator::hash_iterator(hash_iterator const& _o)
@@ -269,11 +255,21 @@ hash_iterator::HASH hash_iterator::get_field(SHIFT const& _s, HASH const& _h, SH
 
 hash_iterator::HASH hash_iterator::get_field(SHIFT const& _s) const
 {
+	//return get_field(_s, hash, _bit_wdths, _bit_shfts);
 	return (hash >> bit_shfts[_s]) & ((1 << bit_wdths[_s]) - 1);
+}
+
+hash_iterator::HASH hash_iterator::set_field(SHIFT const& _s, HASH const& _h, HASH& _hash, SHIFT* const& _bit_wdths, SHIFT* const& _bit_shfts)
+{
+	_hash -= _hash & (((1 << _bit_wdths[_s]) - 1) << _bit_shfts[_s]);
+	_hash += (_h & ((1 << _bit_wdths[_s]) - 1)) << _bit_shfts[_s];
+
+	return _hash;
 }
 
 hash_iterator::HASH hash_iterator::set_field(SHIFT const& _s, HASH const& _h)
 {
+	//return set_field(_s, _h, hash, _bit_wdths, _bit_shfts);
 	hash -= hash & (((1 << bit_wdths[_s]) - 1) << bit_shfts[_s]);
 	hash += (_h & ((1 << bit_wdths[_s]) - 1)) << bit_shfts[_s];
 

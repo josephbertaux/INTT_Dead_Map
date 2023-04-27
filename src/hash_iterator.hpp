@@ -1,8 +1,6 @@
 #ifndef HASH_ITERATOR_H
 #define HASH_ITERATOR_H
 
-#include <iostream>
-
 class hash_iterator;
 
 bool operator<(hash_iterator const&, hash_iterator const&);
@@ -49,8 +47,9 @@ public:
 	HASH set_hash(HASH const&);
 
 	static HASH get_field(SHIFT const&, HASH const&, SHIFT* const&, SHIFT* const&);
-
 	HASH get_field(SHIFT const&) const;
+
+	static HASH set_field(SHIFT const&, HASH const&, HASH&, SHIFT* const&, SHIFT* const&);
 	HASH set_field(SHIFT const&, HASH const&);
 
 	virtual HASH pseudo_hash() const;

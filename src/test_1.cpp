@@ -1,70 +1,77 @@
 #include <iostream>
+#include <memory>
 
-#include "intt_hash.hpp"
+#include "hash_iterator.hpp"
+#include "intt_iterator.hpp"
 
-//void print_hash_value(intt_hash const&);
-void print_hash_value(intt_hash&);
-void print_hash_indexes(intt_hash const&);
+void print_hash(intt_iterator const&);
+void print_fields(intt_iterator const&);
 
 int main()
 {
-	intt_hash my_hash(2, 15, 1, 25, 127, 7);
+	//std::shared_ptr<hash_iterator> itr = std::make_shared<intt_iterator>();
+	intt_iterator itr;
+	std::cout << itr.size() << std::endl;
+	std::cout << itr.num_fields() << std::endl;
 
-	print_hash_indexes(my_hash);
-	std::cout << "inc" << std::endl;
-	intt_hash foo = ++my_hash;
-	print_hash_indexes(my_hash);
-	std::cout << "dec" << std::endl;
-	intt_hash bar = --my_hash;
-	print_hash_indexes(my_hash);
+	std::cout << "checking specific increments:" << std::endl;
+	std::cout << "first test:" << std::endl;
+	*itr = 0;
+	itr.set_field(intt_iterator::i_lyr, 2);
+	print_hash(itr);
+	print_fields(itr);
+	std::cout << "dec:" << std::endl;
+	--itr;
+	print_hash(itr);
+	print_fields(itr);
+	std::cout << "inc:" << std::endl;
+	++itr;
+	print_hash(itr);
+	print_fields(itr);
 
-	std::cout << "layer" << my_hash.get_field(intt_hash::i_lyr) << std::endl;
-	std::cout << "equal: " << (my_hash == my_hash) << std::endl;
-	std::cout << "not equal: " << (foo == bar) << std::endl;
+	std::cout << "second test:" << std::endl;
+	*itr = 0;
+	itr.set_field(intt_iterator::i_lyr, 3);
+	print_hash(itr);
+	print_fields(itr);
+	std::cout << "dec:" << std::endl;
+	--itr;
+	print_hash(itr);
+	print_fields(itr);
+	std::cout << "inc:" << std::endl;
+	++itr;
+	print_hash(itr);
+	print_fields(itr);
 
-	std::cout << std::endl;
-	std::cout << std::endl;
+	--itr;
+	std::cout << "checking pseudo hash" << std::endl;
+	std::cout << std::hex << itr.get_hash() << std::endl;
+	std::cout << std::hex << itr.pseudo_hash() << std::endl;
+	std::cout << std::hex << itr.get_hash() << std::endl;
 
-	my_hash = intt_hash(my_hash.end());
-	std::cout << "should be end:" << std::endl;
-	print_hash_value(my_hash);
+	//print_hash(itr);
+	//print_fields(itr);
+	//while(++itr != itr.end())
+	//{
+	//	print_hash(itr);
+	//	print_fields(itr);
+	//}
 
-	std::cout << "should be last:" << std::endl;
-	--my_hash;
-	print_hash_value(my_hash);
-	print_hash_indexes(my_hash);
-
-	std::cout << "should be adjacent:" << std::endl;
-	--my_hash;
-	print_hash_value(my_hash);
-	print_hash_indexes(my_hash);
-
-	std::cout << "pseudo hash:" << std::endl;
-	my_hash = intt_hash(my_hash.pseudo_hash());
-	print_hash_value(my_hash);
-	print_hash_indexes(my_hash);
-
-	std::cout << "directly inc hash value:" << std::endl;
-	print_hash_value(my_hash);
-	++*my_hash;
-	print_hash_value(my_hash);
-	std::cout << std::hex << *my_hash << std::endl;
+	//print_hash(itr);
+	//print_fields(itr);
 
 	return 0;
 }
 
-//void print_hash_value(intt_hash const& _h)
-void print_hash_value(intt_hash& _h)
+void print_hash(intt_iterator const& _m)
 {
-	//printf("%#0*x\n", _h.size() / 4 + 3, _h.get_hash());
-	printf("%#0*x\n", _h.size() / 4 + 3, *_h);
+	printf("%#0*x\n", _m.size() / 4 + 3, _m.get_hash());
 }
 
-void print_hash_indexes(intt_hash const& _h)
+void print_fields(intt_iterator const& _m)
 {
-	auto a = _h.get_indexes();
-	for(int i = 0; i < a.size(); ++i)
+	for(intt_iterator::SHIFT s = 0; s < _m.num_fields(); ++s)
 	{
-		std::cout << a[i] << std::endl;
+		printf("\t%#0*x\n", _m.size() / 4 + 3, _m.get_field(s));
 	}
 }
