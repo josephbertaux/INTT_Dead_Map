@@ -236,8 +236,7 @@ int main(int argc, char** argv)
 
 		for(hash_itr = strata_itr->second.map.begin(); hash_itr != strata_itr->second.map.end(); ++hash_itr)
 		{
-			hash_itr->second.mean = 0;
-			hash_itr->second.mean += hash_itr->second.count;
+			hash_itr->second.mean = hash_itr->second.count;
 			hash_itr->second.mean /= hash_itr->second.hashes;
 			hash_itr->second.sigma = sqrt(hash_itr->second.mean);
 		}
