@@ -33,6 +33,13 @@ int main()
 	tree->Fill();
 
 	branches["lyr"] = 1;
+	branches["ldr"] = 9;
+	branches["nos"] = 1;
+	branches["chp"] = 13;
+	branches["chn"] = 96;
+	tree->Fill();
+
+	branches["lyr"] = 1;
 	branches["ldr"] = 8;
 	branches["nos"] = 1;
 	branches["chp"] = 13;

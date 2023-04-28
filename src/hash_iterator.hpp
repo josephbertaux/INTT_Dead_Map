@@ -36,9 +36,9 @@ public:
 	friend bool operator==(hash_iterator const&, hash_iterator const&);
 	friend bool operator!=(hash_iterator const&, hash_iterator const&);
 
-	hash_iterator begin();
-	hash_iterator last();
-	hash_iterator end();
+	HASH begin() const;
+	HASH last() const;
+	HASH end() const;
 
 	SHIFT size() const;
 	SHIFT num_fields() const;

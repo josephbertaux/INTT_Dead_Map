@@ -218,19 +218,22 @@ bool operator!=(hash_iterator const& _lhs, hash_iterator const& _rhs)
 	return _lhs.hash != _rhs.hash;
 }
 
-hash_iterator hash_iterator::begin()
+hash_iterator::HASH hash_iterator::begin() const
 {
-	return hash_iterator(*this, BEGIN_HASH);
+	//return hash_iterator(*this, BEGIN_HASH);
+	return BEGIN_HASH;
 }
 
-hash_iterator hash_iterator::last()
+hash_iterator::HASH hash_iterator::last() const
 {
-	return hash_iterator(*this, LAST_HASH);
+	//return hash_iterator(*this, LAST_HASH);
+	return LAST_HASH;
 }
 
-hash_iterator hash_iterator::end()
+hash_iterator::HASH hash_iterator::end() const
 {
-	return hash_iterator(*this, END_HASH);
+	//return hash_iterator(*this, END_HASH);
+	return END_HASH;
 }
 
 hash_iterator::SHIFT hash_iterator::size() const
